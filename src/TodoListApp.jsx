@@ -1,33 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import useLocalStorageState from './hooks/useLocalStorageState';
+import TaskAddition from './components/TaskAddition';
+import TaskList from './components/TaskList';
 
 export const TodoListApp = () => {
-    const [taskList, setTaskList] = useState(
-        JSON.parse(window.localStorage.getItem('taskList')) || []
-    );
+    const [taskList, setTaskList] = useLocalStorageState('taskList');
 
-    useEffect(() => {
-        window.localStorage.setItem('taskList', JSON.stringify(taskList));
-    }, [taskList]);
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        console.log('Submitting!');
+    const handleTaskSubmitted = (task) => {
         setTaskList(() => [
             {
                 taskId: Date.now(),
-                taskDescription: event.target.elements.inputTodoTask.value,
+                taskDescription: task,
                 isCompleted: false,
             },
             ...taskList,
         ]);
     };
 
-    const handleRemove = (taskId) => {
+    const handleRemoveTask = (taskId) => {
         console.log('Removing!', taskId);
         setTaskList(() => taskList.filter((task) => task.taskId !== taskId));
     };
 
-    const handleCompletionStatus = (taskId) => {
+    const handleUpdateCompletionStatus = (taskId) => {
         console.log('Setting completion status!', taskId);
         setTaskList(() =>
             taskList.map((task) => {
@@ -43,42 +38,14 @@ export const TodoListApp = () => {
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
-                <h1>TODO List App</h1>
-                <input
-                    id='inputTodoTask'
-                    placeholder='Add a task...'
-                    autoComplete='off'
-                />
-                <button type='submit'>Add</button>
-
-                <h3>
-                    Task List - Click on it to set it to completed/not completed
-                </h3>
-                <ul>
-                    {taskList.map((task) => (
-                        <li key={task.taskId}>
-                            <span
-                                style={{
-                                    textDecoration: task.isCompleted
-                                        ? 'line-through'
-                                        : 'none',
-                                    cursor: 'pointer',
-                                }}
-                                onClick={() =>
-                                    handleCompletionStatus(task.taskId)
-                                }
-                            >{`${task.taskId} - ${task.taskDescription}`}</span>
-                            <button
-                                type='button'
-                                onClick={() => handleRemove(task.taskId)}
-                            >
-                                Remove
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </form>
+            <TaskAddition submitTask={(task) => handleTaskSubmitted(task)} />
+            <TaskList
+                taskList={taskList}
+                removeTask={(taskId) => handleRemoveTask(taskId)}
+                updateCompletionStatus={(taskId) =>
+                    handleUpdateCompletionStatus(taskId)
+                }
+            />
         </>
     );
 };

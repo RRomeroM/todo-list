@@ -4,7 +4,7 @@ const TaskList = ({ taskList, removeTask, updateCompletionStatus }) => {
     return (
         <>
             <h3>
-                Task List - Click on task to set it to completed/not completed
+                Task List - Click on a task to set it to completed/not completed
             </h3>
             <ul>
                 {taskList.map((task) => (

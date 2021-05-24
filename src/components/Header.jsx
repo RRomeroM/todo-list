@@ -14,7 +14,7 @@ const Header = () => {
         <>
             <Flex p='2'>
                 <Heading as='h2' size='xl' isTruncated>
-                    TODO - List App
+                    TODO List App
                 </Heading>
                 <Spacer />
                 <IconButton

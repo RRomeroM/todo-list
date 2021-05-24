@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
+import { Container, Stack } from '@chakra-ui/react';
 import useLocalStorageState from './hooks/useLocalStorageState';
 import TaskAddition from './components/TaskAddition';
 import TaskList from './components/TaskList';
+import Header from './components/Header';
 
 export const TodoListApp = () => {
     const [taskList, setTaskList] = useLocalStorageState('taskList');
@@ -38,14 +40,22 @@ export const TodoListApp = () => {
 
     return (
         <>
-            <TaskAddition submitTask={(task) => handleTaskSubmitted(task)} />
-            <TaskList
-                taskList={taskList}
-                removeTask={(taskId) => handleRemoveTask(taskId)}
-                updateCompletionStatus={(taskId) =>
-                    handleUpdateCompletionStatus(taskId)
-                }
-            />
+            <Container>
+                <Stack>
+                    <Header />
+
+                    <TaskAddition
+                        submitTask={(task) => handleTaskSubmitted(task)}
+                    />
+                    <TaskList
+                        taskList={taskList}
+                        removeTask={(taskId) => handleRemoveTask(taskId)}
+                        updateCompletionStatus={(taskId) =>
+                            handleUpdateCompletionStatus(taskId)
+                        }
+                    />
+                </Stack>
+            </Container>
         </>
     );
 };

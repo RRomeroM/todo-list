@@ -1,34 +1,24 @@
 import React from 'react';
+import { List, Text } from '@chakra-ui/react';
+import TaskDetail from './TaskDetail';
 
 const TaskList = ({ taskList, removeTask, updateCompletionStatus }) => {
     return (
         <>
-            <h3>
-                Task List - Click on a task to set it to completed/not completed
-            </h3>
-            <ul>
+            <Text fontSize='2xl'>Task List</Text>
+            <Text fontSize='xs' fontStyle='italic'>
+                *Click on a task to set it to completed/not completed
+            </Text>
+            <List spacing={5}>
                 {taskList.map((task) => (
-                    <li key={task.taskId}>
-                        <span
-                            style={{
-                                textDecoration: task.isCompleted
-                                    ? 'line-through'
-                                    : 'none',
-                                cursor: 'pointer',
-                            }}
-                            onClick={() => updateCompletionStatus(task.taskId)}
-                        >
-                            {task.taskDescription}
-                        </span>
-                        <button
-                            type='button'
-                            onClick={() => removeTask(task.taskId)}
-                        >
-                            Remove
-                        </button>
-                    </li>
+                    <TaskDetail
+                        key={task.taskId}
+                        task={task}
+                        removeTask={removeTask}
+                        updateCompletionStatus={updateCompletionStatus}
+                    />
                 ))}
-            </ul>
+            </List>
         </>
     );
 };

@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { Button, Input, HStack } from '@chakra-ui/react';
 
 const TaskAddition = ({ submitTask }) => {
     const [inputTask, setInputTask] = useState('');
@@ -19,18 +20,19 @@ const TaskAddition = ({ submitTask }) => {
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <h1>TODO List App</h1>
-                <input
-                    id='inputTodoTask'
-                    placeholder='Add a task...'
-                    autoComplete='off'
-                    value={inputTask}
-                    onChange={handleChange}
-                    ref={refInputTask}
-                />
-                <button disabled={!inputTask.length} type='submit'>
-                    Add
-                </button>
+                <HStack>
+                    <Input
+                        id='inputTodoTask'
+                        placeholder='Add a task...'
+                        autoComplete='off'
+                        value={inputTask}
+                        onChange={handleChange}
+                        ref={refInputTask}
+                    />
+                    <Button disabled={!inputTask.length} type='submit'>
+                        Add
+                    </Button>
+                </HStack>
             </form>
         </>
     );
